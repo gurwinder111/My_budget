@@ -53,6 +53,7 @@ class CategoryController extends Controller
             return redirect('category/create')->with('error', 'Data Not Saved!');
         }
     }
+    
 
     /**
      * Display the specified resource.
