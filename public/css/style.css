@@ -28,3 +28,13 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   -webkit-transform: scale(1.5); /* Safari 3-8 */
   transform: scale(1.5); 
 }
+
+#previewImg {
+    width: 128px;
+    height: 110px;
+}
+
+#previewImg2 {
+    width: 128px;
+    height: 110px;
+}

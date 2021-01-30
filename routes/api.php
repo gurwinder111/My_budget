@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\http\Controllers\Product_api;
+use App\http\Controllers\Api\Product_api;
 
 /*
 |--------------------------------------------------------------------------

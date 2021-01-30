@@ -27,7 +27,7 @@ class ProductController extends Controller
                         ->leftJoin('categories', 'products.cat_id', '=', 'categories.id')
                         ->leftJoin('tags', 'products.tag_id', '=', 'tags.id')
                         ->select('products.*','categories.name as cat_name','tags.name as tag_name')
-                        ->get();
+                        ->paginate(15);
         // echo "<pre>";
         // print_r($products);
         // die();
@@ -124,7 +124,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('product.edit');
+        return view('product.edit', ['categorys' => $categorys, 'tags'=>$tags]);
     }
 
     /**
@@ -135,7 +135,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $tags = Tag::all();
+        $categorys =  Category::all();
+        return view('product.edit', ['categorys' => $categorys, 'tags'=>$tags, 'product'=>$product]);
     }
 
     /**
@@ -147,7 +149,65 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'max:100'],
+            'price' => ['required'],
+            'cat_id' => ['required'],
+            'gender' => ['required'],
+            'buy_link' => ['required'],
+            'thumb' => ['required'],
+        ]);
+
+        $path = "";
+        $allowedfileExtension=['jpeg','jpg','png','gif'];
+        // Uploade Thumbnail
+        if ($request->hasFile('thumb')) {
+            $thumb = $request->thumb;
+            $ext = $request->thumb->extension();
+            $check=in_array($ext,$allowedfileExtension);
+            if ($check) {
+                $path = $request->thumb->store('product_images');
+            }else{
+                return redirect('products/create')->with('error', 'Sorry Only Upload png , jpg ,jpeg !');
+            }       
+        }else{
+            return redirect('products/create')->with('error', 'Thumbnail is Required!');
+        }
+
+        // Uploade other Images
+        $other_images = "";
+        if($request->hasfile('other_img'))
+        {
+            foreach($request->file('other_img') as $file)
+            {
+                $ext = $file->extension();
+                $check=in_array($ext,$allowedfileExtension);
+                if ($check) {
+                    $other_images .= $file->store('product_images').",";
+                }else{
+                    return redirect('products/create')->with('error', 'Sorry Only Upload png , jpg ,jpeg !');
+                } 
+            }
+        }
+
+        
+
+        $product = Product::find($product['id']);
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->buy_link = $request->buy_link;
+        $product->gender = $request->gender;
+        $product->cat_id = $request->cat_id;
+        $product->tag_id = $request->tag_id;
+        $product->thumb = $path;
+        $product->other_img = $other_images;
+        $product->description = $request->description;
+
+        if ($product->save()) {
+            return redirect('products/create')->with('status', 'Product Saved Succeessfully!');
+        }else {
+            return redirect('products/create')->with('error', 'Data Not Saved!');
+        }
     }
 
     /**

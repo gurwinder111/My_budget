@@ -20,7 +20,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Add Product</h4>
+                                    <h4 class="card-title">Edit Product</h4>
 
                                     @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -44,36 +44,44 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <form method="POST" enctype="multipart/form-data" action="/products">
+                                        <form method="POST" enctype="multipart/form-data" action="/products/{{ $product['id'] }}">
                                             @csrf
+                                            @method('PATCH')
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <fieldset class="form-group">
                                                         <label for="name">Product<span>*</span> </label>
-                                                        <input required type="text" name="name" id="name" class="form-control"  placeholder="Enter Product Name">
+                                                        <input required type="text" name="name" id="name" class="form-control"  placeholder="Enter Product Name" value="{{ $product['name'] }}">
                                                     </fieldset>
                                                     <fieldset class="form-group">
                                                         <label for="gender">Gender<span>*</span></label>
                                                         <select required id="gender" name="gender" class="form-control">
                                                             <option value="0" selected disabled>Gender</option>
-                                                            <option value="men">Men</option>
-                                                            <option value="women">Women</option>
+                                                            <option value="men"
+                                                                @if($product['gender'] == 'men') ? selected @endif>
+                                                                Men
+                                                            </option>
+                                                            <option value="women"
+                                                                @if($product['gender'] == 'women') ? selected @endif>
+                                                                Women
+                                                            </option>
                                                         </select>
                                                     </fieldset>
                                                     <fieldset class="form-group">
                                                         <label for="buy_link">Product Link<span>*</span></label>
-                                                        <input required type="text" name="buy_link" id="buy_link" class="form-control"  placeholder="Enter Product Link">
+                                                        <input required type="text" name="buy_link" id="buy_link" class="form-control"  placeholder="Enter Product Link" value="{{ $product['buy_link'] }}">
                                                     </fieldset>
                                                     <fieldset class="form-group">
                                                         <label for="price">Price<span>*</span></label>
-                                                        <input required type="number" name="price" id="price" class="form-control"  placeholder="Enter Product Link">
+                                                        <input required type="number" name="price" id="price" class="form-control"  placeholder="Enter Product Link" value="{{ $product['price'] }}">
                                                     </fieldset>
                                                     <fieldset class="form-group">
                                                         <label for="cat_id">Category<span>*</span></label>
                                                         <select required id="cat_id" name="cat_id" class="form-control">
                                                             <option value="0" selected disabled>Category</option>
                                                             @foreach ($categorys as $category)
-                                                                <option value="{{ $category->id }}">
+                                                                <option value="{{ $category->id }}"
+                                                                    @if($product['cat_id'] == $category->id) ? selected @endif>
                                                                     {{ $category->name }}
                                                                 </option>
                                                             @endforeach
@@ -88,7 +96,8 @@
                                                         <select id="tag_id" name="tag_id" class="form-control">
                                                             <option value="0" selected disabled>Tag</option>
                                                             @foreach ($tags as $tag)
-                                                                <option value="{{ $tag->id }}">
+                                                                <option value="{{ $tag->id }}"
+                                                                    @if($product['tag_id'] == $tag->id) ? selected @endif>
                                                                     {{ $tag->name }}
                                                                 </option>
                                                             @endforeach
@@ -96,23 +105,30 @@
                                                     </fieldset>
                                                     <fieldset class="form-group">
                                                         <label for="basic-form-9">Description</label>
-                                                        <textarea id="basic-form-9" rows="4" class="form-control" name="description"></textarea>
+                                                        <textarea id="basic-form-9" rows="4" class="form-control" name="description">{{ $product['description'] }}</textarea>
                                                     </fieldset>
                                                 
                                                     <fieldset class="form-group">
                                                         <label for="thumb">Thumbnail<span>*</span></label>
                                                         <div class="custom-file">
-                                                            <input required="" type="file" class="custom-file-input" id="thumb" name="thumb">
+                                                            <input type="file" class="custom-file-input" id="thumb" name="thumb">
                                                             <label class="custom-file-label" for="thumb">Choose file</label>
+                                                            
+                                                        </div>
+                                                        <div>
                                                             <img id="previewImg">
                                                         </div>
+                                                        
                                                     </fieldset>
                                                     <fieldset class="form-group">
                                                         <label for="other_img">Other Images</label>
                                                         <div class="custom-file">
                                                             <input type="file" class="custom-file-input" id="other_img" name="other_img[]" multiple>
                                                             <label class="custom-file-label" for="other_img">Choose file</label>
-                                                            <img id="previewImg">
+                                                            
+                                                        </div>
+                                                        <div>
+                                                            <img id="previewImg2">
                                                         </div>
                                                     </fieldset>
                                                 </div>

@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <table id="mytable" class="table table-striped table-bordered display" style="width:100%" style="width:100%">
+                                        <table class="table table-striped table-bordered display" style="width:100%" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th>Product Name</th>
@@ -64,7 +64,13 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
+                                        <datatable-footer class="datatable-footer ng-star-inserted">
+                                            <div class="datatable-footer-inner" style="height: 50px;">
+                                                {{ $products->links() }}
+                                            </div>
+                                        </datatable-footer>
 
+                                        
                                     </div>
                                 </div>
                             </div>

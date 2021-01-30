@@ -112,7 +112,7 @@
                                                         <div class="custom-file">
                                                             <input type="file" class="custom-file-input" id="other_img" name="other_img[]" multiple>
                                                             <label class="custom-file-label" for="other_img">Choose file</label>
-                                                            <img id="previewImg">
+                                                            <img id="previewImg2">
                                                         </div>
                                                     </fieldset>
                                                 </div>

@@ -5,6 +5,8 @@ use App\http\Controllers\ProductController;
 use App\http\Controllers\CategoryController;
 use App\http\Controllers\TagController;
 
+use App\http\Controllers\TestController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +34,4 @@ Route::middleware(['auth'])->group(function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/test', [App\Http\Controllers\TestController::class, 'aws_signed_request']);
